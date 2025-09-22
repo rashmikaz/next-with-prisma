@@ -1,36 +1,73 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# 📘 Prisma with Next.js
 
-## Getting Started
+Foobar is a Python library for dealing with word pluralization.
 
-First, run the development server:
+## 🚀 What is Prisma?
+
+Prisma is an open-source ORM (Object-Relational Mapping) tool that makes working with databases in JavaScript/TypeScript applications easier.
+
+Instead of writing raw SQL queries, you define your database schema using the Prisma Schema Language (PSL), and Prisma generates a type-safe client for you to interact with your database.
+
+✅ Benefits of Prisma:
+
+Type-safe queries → catch errors at compile time
+
+Auto-completion with full IntelliSense in VS Code
+
+Supports multiple databases (PostgreSQL, MySQL, SQLite, MongoDB, SQL Server, CockroachDB)
+
+Easy migrations using prisma migrate
+
+Great for Next.js (API routes, server actions, or middleware)
+
+
+
+
+## 🛠️ Installation & Setup
+
+```python
+
+npm install @prisma/client prisma
+
+npx prisma init
+
+```
+This will create a prisma/schema.prisma file and a .env file.
+
+
+## ⚙️ Configure Database
+
+In your .env file, set the database connection string:
+```bash
+DATABASE_URL="postgresql://USER:PASSWORD@localhost:5432/mydb?schema=public"
+```
+Change according to your DB (Postgres, MySQL, SQLite, etc.).
+##  📄 Define Schema
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+datasource db {
+  provider = "sqlite" // use "postgresql" or "mysql" if needed
+  url      = "file:./dev.db"
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Post {
+  id        Int      @id @default(autoincrement())
+  title     String
+  content   String?
+  createdAt DateTime @default(now())
+}
+
+```
+## 📦 Run Migration
+After defining your database schema in prisma/schema.prisma and creating your MySQL database, you need to apply the schema to the database using Prisma Migrate. This will create the necessary tables and relations automatically.
+
+
+```bash
+npx prisma migrate dev --name init
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
