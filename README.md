@@ -33,3 +33,41 @@ npx prisma init
 
 ```
 This will create a prisma/schema.prisma file and a .env file.
+
+
+## ⚙️ Configure Database
+
+In your .env file, set the database connection string:
+```bash
+DATABASE_URL="postgresql://USER:PASSWORD@localhost:5432/mydb?schema=public"
+```
+Change according to your DB (Postgres, MySQL, SQLite, etc.).
+##  📄 Define Schema
+
+```bash
+datasource db {
+  provider = "sqlite" // use "postgresql" or "mysql" if needed
+  url      = "file:./dev.db"
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Post {
+  id        Int      @id @default(autoincrement())
+  title     String
+  content   String?
+  createdAt DateTime @default(now())
+}
+
+```
+## 📦 Run Migration
+After defining your database schema in prisma/schema.prisma and creating your MySQL database, you need to apply the schema to the database using Prisma Migrate. This will create the necessary tables and relations automatically.
+
+
+```bash
+npx prisma migrate dev --name init
+```
+
+
